@@ -1,11 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 include 'db.php';
 
@@ -15,8 +15,8 @@ $role = isset($_POST['role']) ? htmlspecialchars(trim($_POST['role'])) : '';
 $bio = isset($_POST['bio']) ? htmlspecialchars(trim($_POST['bio'])) : '';
 $image = '';
 
-$uploadDir = '/home/cgtweb2/courses/cgt456/blake50/cgt390/lab8/uploads/';
-$uploadUrl = 'https://cgtweb2.tech.purdue.edu/courses/cgt456/blake50/cgt390/lab8/uploads/';
+$uploadDir = __DIR__ . '/uploads/';
+$uploadUrl = 'https://web.ics.purdue.edu/~blake50/cgt390/lab8/backend/uploads/';
 $imageName = '';
 
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -33,23 +33,15 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         echo json_encode(['success' => false, 'message' => 'Error uploading the image.']);
         exit;
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Image upload failed or no image provided.']);
-    exit;
 }
 
 $stmt = $conn->prepare("INSERT INTO user_profiles (name, email, role, bio, image) VALUES (?, ?, ?, ?, ?)");
-if (!$stmt) {
-    echo json_encode(['success' => false, 'message' => 'Prepare statement failed: ' . $conn->error]);
-    exit;
-}
-
 $stmt->bind_param("sssss", $name, $email, $role, $bio, $image);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Profile saved successfully.']);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Execute statement failed: ' . $stmt->error]);
+    echo json_encode(['success' => false, 'message' => 'Database error: ' . $stmt->error]);
 }
 
 $stmt->close();

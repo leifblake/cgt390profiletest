@@ -26,9 +26,9 @@ const ProfileForm = ({ addProfile }) => {
     setError('');
 
     if (!formData.name || !formData.email || !formData.role || !formData.bio) {
-      setError('All fields are required.');
-      setLoading(false);
-      return;
+        setError('All fields are required.');
+        setLoading(false);
+        return;
     }
 
     const formDataToSend = new FormData();
@@ -37,42 +37,35 @@ const ProfileForm = ({ addProfile }) => {
     formDataToSend.append('role', formData.role);
     formDataToSend.append('bio', formData.bio);
     if (formData.image) {
-      formDataToSend.append('image', formData.image);
+        formDataToSend.append('image', formData.image);
     }
 
     try {
-      const response = await fetch('https://cgtweb2.tech.purdue.edu/courses/cgt456/blake50/cgt390/lab8/backend/send-data.php', {
-        method: 'POST',
-        body: formDataToSend,
-      });
-      const result = await response.json();
+        const response = await fetch('https://web.ics.purdue.edu/~blake50/cgt390/lab8/backend/send-data.php', {
+            method: 'POST',
+            body: formDataToSend,
+        });
+        const result = await response.json();
 
-      if (result.success) {
-        alert('Profile saved successfully!');
-        addProfile({
-          name: formData.name,
-          email: formData.email,
-          role: formData.role,
-          bio: formData.bio,
-          image: formData.image ? URL.createObjectURL(formData.image) : '',
-        });
-        setFormData({
-          name: '',
-          email: '',
-          role: '',
-          bio: '',
-          image: null,
-        });
-      } else {
-        setError(result.message);
-      }
+        if (result.success) {
+            alert('Profile saved successfully!');
+            addProfile({
+                name: formData.name,
+                email: formData.email,
+                role: formData.role,
+                bio: formData.bio,
+                image: formData.image ? URL.createObjectURL(formData.image) : '',
+            });
+        } else {
+            setError(result.message);
+        }
     } catch (error) {
-      console.error('Error saving profile:', error);
-      setError('Please try again');
+        console.error('Error saving profile:', error);
+        setError('Please try again');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   const formStyle = {
     display: 'flex',

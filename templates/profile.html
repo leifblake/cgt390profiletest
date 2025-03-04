@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Form</title>
+</head>
+<body>
+    <h1>Create Profile</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+        <br><br>
+        <label for="image">Upload an image:</label>
+        <input type="file" name="image" id="image" required>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    <h2>Profiles</h2>
+    {% for profile in profiles %}
+        <div>
+            <h3>{{ profile.name }}</h3>
+            <img src="{{ url_for('static', filename='uploads/' ~ profile.image_filename) }}" alt="Profile image" style="max-width:200px;">
+        </div>
+    {% endfor %}
+</body>
+</html>
