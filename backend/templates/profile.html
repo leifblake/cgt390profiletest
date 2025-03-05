@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Form</title>
+</head>
+<body>
+  <h1>Create Profile</h1>
+  <form action="/profile" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1rem; max-width: 400px; margin: auto;">
+    <div style="display: flex; flex-direction: column;">
+      <label for="name" style="margin-bottom: 0.5rem;">Name:</label>
+      <input type="text" name="name" id="name" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <label for="email" style="margin-bottom: 0.5rem;">Email:</label>
+      <input type="email" name="email" id="email" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <label for="role" style="margin-bottom: 0.5rem;">Role:</label>
+      <input type="text" name="role" id="role" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <label for="bio" style="margin-bottom: 0.5rem;">Bio:</label>
+      <textarea name="bio" id="bio" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <label for="image" style="margin-bottom: 0.5rem;">Image:</label>
+      <input type="file" name="image" id="image" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+    <button type="submit" style="padding: 0.75rem; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;">
+      Save Profile
+    </button>
+  </form>
+  <hr>
+  <h2>Profiles</h2>
+  {% for profile in profiles %}
+    <div class="card">
+      <h3>{{ profile.name }}</h3>
+      <img src="{{ url_for('static', filename='uploads/' ~ profile.image_filename) }}" alt="Profile image" style="max-width:200px;">
+    </div>
+  {% endfor %}
+</body>
+</html>
