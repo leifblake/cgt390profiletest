@@ -65,7 +65,7 @@ const App = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await fetch('https://cgtweb2.tech.purdue.edu/courses/cgt456/blake50/cgt390/lab8/backend/fetch-profiles.php');
+        const response = await fetch('http://localhost:5001/api/profiles');
         const profilesData = await response.json();
         setProfiles([...initialProfiles, ...profilesData]);
       } catch (error) {

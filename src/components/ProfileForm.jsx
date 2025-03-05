@@ -41,10 +41,10 @@ const ProfileForm = ({ addProfile }) => {
     }
 
     try {
-        const response = await fetch('https://web.ics.purdue.edu/~blake50/cgt390/lab8/backend/send-data.php', {
-            method: 'POST',
-            body: formDataToSend,
-        });
+      const response = await fetch('http://localhost:5001/api/profiles', {
+        method: 'POST',
+        body: formDataToSend,
+      });
         const result = await response.json();
 
         if (result.success) {
